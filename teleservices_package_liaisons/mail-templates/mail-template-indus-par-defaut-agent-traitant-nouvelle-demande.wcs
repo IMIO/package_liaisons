@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<mail-template id="49" url="https://demo-formulaires.guichet-citoyen.be/backoffice/workflows/mail-templates/49/">
+  <name>Indus - Par d&#233;faut - Agent traitant - Nouvelle demande</name>
+  <slug>indus-par-defaut-agent-traitant-nouvelle-demande</slug>
+  <description>Email envoy&#233; &#224; l'agent traitant lors de l'arriv&#233;e d'une nouvelle demande.</description>
+  <subject>{{ form_name }} - Nouvelle demande</subject>
+  <body>Bonjour,
+
+La démarche suivante vient d'être complétée :
+
+{{ form_name }} portant la référence {{ form_number }}.
+
+`Consulter la demande &lt;{{ form_url_backoffice }}&gt;`_
+
+{% if form_details %}
+Pour r&#233;f&#233;rence, voici le d&#233;tail de la demande&#160;:
+
+{{ form_details }}
+{% endif %}
+
+Cordialement,
+</body>
+</mail-template>

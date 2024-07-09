@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<mail-template id="43" url="https://demo-formulaires.guichet-citoyen.be/backoffice/workflows/mail-templates/43/">
+  <name>Indus - Par d&#233;faut - Usager - Refus&#233;e</name>
+  <slug>indus-par-defaut-usager-refusee</slug>
+  <description>Email envoy&#233; &#224; l'usager lorsque sa demande est refus&#233;e.</description>
+  <subject>{{ form_name }} - Demande refus&#233;e</subject>
+  <body>Bonjour,
+
+{% if form_status_changed %}
+Nous sommes au regrêt de devoir vous informer du refus de votre demande.
+Pour rappel, cela concerne la démarche suivante : {{ form_name }}.
+{% endif %}
+
+{% if refus_var_motif %}
+Motif du refus : {{ refus_var_motif }}
+{% endif %}
+
+{% if form_user %}
+Vous pouvez `consulter la demande. &lt;{{ form_url }}&gt;`_
+{% endif %}
+
+{% if form_tracking_code %}
+Le code de suivi de votre demande est le suivant : **{{form_tracking_code}}**
+En cas de probl&#232;me, munissez-vous du code de suivi et prenez contact avec l'administration.
+{% endif %}
+
+Cordialement,
+</body>
+</mail-template>
