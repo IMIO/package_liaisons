@@ -24,7 +24,7 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[],
-    url="https://github.com/IMIO//teleservices_package_liaisons",
+    url="https://github.com/IMIO//teleservices-package-liaisons",
     classifiers=[
         "Development Status :: 2 - Pre-Alpha",
         "Environment :: Web Environment",
