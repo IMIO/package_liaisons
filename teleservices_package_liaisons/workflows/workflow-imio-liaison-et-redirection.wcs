@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<workflow id="200" url="https://demo-formulaires.guichet-citoyen.be/backoffice/workflows/200/">
+<workflow id="40" url="https://staging3-formulaires.guichet-citoyen.be/backoffice/workflows/40/">
   <name>iMio - liaison et redirection</name>
   <slug>imio-liaison-redirection</slug>
   <roles>
@@ -13,31 +13,11 @@
         <role>__restricted__</role>
       </visibility><items>
         <item type="set-backoffice-fields" id="1">
-          <label>Concerne qui ?</label>
+          <label>Authentification forte</label>
           <fields>
             <field>
-              <field_id>bo98fcb92f-d9bc-4913-b0e1-c301885502f5</field_id>
-              <value>{% if not form_var_rb_concerne_raw and not form_var_concerne_qui_raw or form_var_rb_concerne_raw == 'moi' or form_var_concerne_qui_raw == 'moi' %}True{% else %}False{% endif %}</value>
-            </field><field>
-              <field_id>bo24cc53ce-c40b-4167-9080-9f286ac310dd</field_id>
-              <value>{% if form_var_rb_concerne_raw == 'tiers' or form_var_concerne_qui_raw == 'tiers' %}True{% else %}False{% endif %}</value>
-            </field><field>
               <field_id>bo2162b04d-0b5b-4a87-9075-425b8fdebfb2</field_id>
               <value>{{ form_user|is_strong_authentication }}</value>
-            </field>
-          </fields>
-        </item><item type="set-backoffice-fields" id="2">
-          <label>Condition</label>
-          <fields>
-            <field>
-              <field_id>bod44f78a7-aa27-4199-befc-4eebb65bff6f</field_id>
-              <value>{% if form_var_mode_delivrance_raw == 'mondossier' or form_var_date_acte_raw == 'Apr&#232;s le 31-03-2019' %}True{% else %}False{% endif %}</value>
-            </field><field>
-              <field_id>bof2067322-8881-4022-a2c3-e55f600a3c3f</field_id>
-              <value>{% if form_var_concerne_qui_raw == "moi" and form_option_redirection_automatique or form_var_result_delivrance_date_acte %}True{% elif form_slug == "demande-cohabitation-legale" and form_option_redirection_automatique %}True{% else %}False{% endif %}</value>
-            </field><field>
-              <field_id>bo167ac504-a96b-44ad-9428-d6f354125380</field_id>
-              <value>{% if form_var_concerne_qui_raw == "moi" and form_option_redirection_automatique or form_var_mode_delivrance_raw == 'mondossier' %}True{% elif form_var_rb_concerne_raw == "moi" and form_option_redirection_automatique %}True{% else %}False{% endif %}</value>
             </field>
           </fields>
         </item><item type="jump" id="3">
@@ -51,79 +31,17 @@
           <status>20</status>
           <condition>
             <type>django</type>
-            <value>session_user|is_strong_authentication and form_option_lien_civadis</value>
+            <value>form_option_lien_civadis and form_var_mode_delivrance ==  "Je souhaite recevoir mes documents par le biais de mon administration communale."</value>
           </condition><mode>immediate</mode>
           <set_marker_on_status>False</set_marker_on_status>
         </item><item type="set-backoffice-fields" id="5">
           <label>Configuration des donn&#233;es de traitement</label>
           <fields>
             <field>
-              <field_id>bo10</field_id>
-              <value>{% if not form_var_rb_concerne or form_var_rb_concerne_raw == 'moi' %}{{form_var_nom}}{% else %}{{form_var_nom_perscon}}{% endif %}</value>
-            </field><field>
-              <field_id>bo11</field_id>
-              <value>{% if not form_var_rb_concerne or form_var_rb_concerne_raw == 'moi' %}{{form_var_prenom}}{% else %}{{form_var_prenom_perscon}}{% endif %}</value>
-            </field><field>
               <field_id>bo6</field_id>
-              <value>{% if not form_var_rb_concerne or form_var_rb_concerne_raw == 'moi' %}{{form_var_nn}}{% else %}{{form_var_nn_perscon}}{% endif %}</value>
-            </field><field>
-              <field_id>bo12</field_id>
-              <value>{% if not form_var_rb_concerne or form_var_rb_concerne_raw == 'moi' %}{{form_var_tel}}{% else %}{{form_var_nn_perscon|default_if_none:""}}{% endif %}</value>
-            </field><field>
-              <field_id>bo2</field_id>
-              <value>{{form_var_nb_exemplaire|default_if_none:1}}</value>
-            </field><field>
-              <field_id>bo3</field_id>
-              <value>{% if form_option_cout and form_var_motifs_price %}{{form_option_cout|add:form_var_motifs_price|multiply:form_var_wf_nb_exemplaires}}{% elif form_option_cout and not form_var_motifs_price %}{{form_option_cout|add:0|multiply:form_var_wf_nb_exemplaires}}{% else %}0{% endif %}</value>
-            </field><field>
-              <field_id>bo9</field_id>
-              <value>{{form_option_paiement_en_ligne}}</value>
+              <value>{{form_var_nn_perscon}}</value>
             </field>
           </fields>
-        </item><item type="set-backoffice-fields" id="6">
-          <label>Adresse pour un acte qui me concerne</label>
-          <fields>
-            <field>
-              <field_id>bo13</field_id>
-              <value>{{ form_var_rue }} {{ form_var_numero }}{{ form_var_boite|default_if_none:"" }} - {{ form_var_cp }} {{ form_var_localite }}</value>
-            </field>
-          </fields><condition>
-            <type>django</type>
-            <value>"Acte" in form_name and not form_var_rb_concerne or form_var_rb_concerne_raw == 'moi'</value>
-          </condition>
-        </item><item type="set-backoffice-fields" id="7">
-          <label>Adresse pour un certificat qui me concerne</label>
-          <fields>
-            <field>
-              <field_id>bo13</field_id>
-              <value>{{ form_var_rue }} {{ form_var_numero }}{{ form_var_boite|default_if_none:"" }} - {{ form_var_cp }} {{ form_var_localite }}</value>
-            </field>
-          </fields><condition>
-            <type>django</type>
-            <value>"Acte" not in form_name and not form_var_concerne_qui_raw or form_var_concerne_qui_raw == 'moi'</value>
-          </condition>
-        </item><item type="set-backoffice-fields" id="8">
-          <label>Adresse pour l'acte d'un tiers</label>
-          <fields>
-            <field>
-              <field_id>bo13</field_id>
-              <value>{{ form_var_rue_perscon }} {{ form_var_numero_perscon }}{{ form_var_boite_perscon|default_if_none:"" }} - {{ form_var_cp_perscon }} {{ form_var_localite_perscon }}</value>
-            </field>
-          </fields><condition>
-            <type>django</type>
-            <value>"Acte" in form_name and form_var_rb_concerne_raw == 'tiers'</value>
-          </condition>
-        </item><item type="set-backoffice-fields" id="9">
-          <label>Adresse pour le certificat d'un tiers</label>
-          <fields>
-            <field>
-              <field_id>bo13</field_id>
-              <value>{{ form_var_rue_perscon }} {{ form_var_numero_perscon }}{{ form_var_boite_perscon|default_if_none:"" }} - {{ form_var_cp_perscon }} {{ form_var_localite_perscon }}</value>
-            </field>
-          </fields><condition>
-            <type>django</type>
-            <value>"Acte" not in form_name and form_var_concerne_qui_raw == 'tiers'</value>
-          </condition>
         </item>
       </items>
     </status><status>
@@ -231,6 +149,11 @@ Cordialement,</body>
           <position>top</position>
         </item><item type="register-comment" id="2">
           <comment>Une erreur s'est produite pendant la demande de migration.</comment>
+        </item><item type="jump" id="3">
+          <status>33</status>
+          <mode>timeout</mode>
+          <timeout>43200</timeout>
+          <set_marker_on_status>False</set_marker_on_status>
         </item>
       </items>
     </status><status>
@@ -261,7 +184,7 @@ Un mail contenant un lien vers cette page vient de vous &#234;tre envoy&#233; af
         </item><item type="choice" id="4">
           <label>V&#233;rifier la pr&#233;sence de l'acte</label>
           <by>
-            <item slug="debug" role_id="08b4ba67eb2d421ea88d4bb0256a9666">Debug</item>
+            <item slug="debug" role_id="6d2c55fe2ea44e41b7f8111b93f1930a">Debug</item>
           </by><status>35</status>
           <require_confirmation>False</require_confirmation>
           <backoffice_info_text>&lt;p&gt;Debug : V&amp;eacute;rifie la pr&amp;eacute;sence de l&amp;#39;acte dans la BAEC suite &amp;agrave; la demande de migration.&lt;/p&gt;
@@ -430,7 +353,7 @@ Cordialement,</body>
     </status><status>
       <id>30</id>
       <name>Erreur lors de la r&#233;cup&#233;ration du document</name>
-      <colour>#FF0000</colour>
+      <colour>#ff0000</colour>
       <visibility />
       <items>
         <item type="displaymsg" id="1">
@@ -439,6 +362,11 @@ Cordialement,</body>
           <position>top</position>
         </item><item type="register-comment" id="2">
           <comment>Une erreur est survenue lors de la r&#233;cup&#233;ration de votre document. Veuillez contacter votre administration.</comment>
+        </item><item type="jump" id="3">
+          <status>29</status>
+          <mode>timeout</mode>
+          <timeout>43200</timeout>
+          <set_marker_on_status>False</set_marker_on_status>
         </item>
       </items>
     </status><status>
@@ -456,15 +384,14 @@ Cordialement,</body>
           </to>
         </item><item type="redirect_to_url" id="2">
           <url>{{form_option_lien_civadis}}</url>
-        </item><item type="displaymsg" id="3">
-          <message>Cette demande a &#233;t&#233; trait&#233;e.</message>
-          <level>success</level>
-          <position>top</position>
-          <to>
-            <item role_id="_receiver">_receiver</item>
-          </to>
         </item>
       </items>
+    </status><status>
+      <id>37</id>
+      <name>Demande cl&#244;tur&#233;e</name>
+      <colour>#dc8add</colour>
+      <visibility />
+      <items />
     </status>
   </possible_status><global_actions>
     <action>
@@ -475,9 +402,22 @@ Cordialement,</body>
       </items><triggers>
         <trigger type="manual" id="7a3a1475-ecd5-421c-a07c-766ad720ee2b">
           <roles>
-            <item slug="debug" role_id="08b4ba67eb2d421ea88d4bb0256a9666">Debug</item>
+            <item slug="debug" role_id="6d2c55fe2ea44e41b7f8111b93f1930a">Debug</item>
           </roles><allow_as_mass_action>True</allow_as_mass_action>
           <require_confirmation>False</require_confirmation>
+        </trigger>
+      </triggers>
+    </action><action>
+      <id>3</id>
+      <name>Cl&#244;turer la demande</name>
+      <items>
+        <item type="anonymise" id="1">
+          <mode>final</mode>
+        </item>
+      </items><triggers>
+        <trigger type="timeout" id="81375085-4f9d-48d1-945b-036331ac2987">
+          <anchor>finalized</anchor>
+          <timeout>1</timeout>
         </trigger>
       </triggers>
     </action>
@@ -507,6 +447,7 @@ Ce dernier vous permet d'indiquer des informations personnalis&#233;es aux citoy
           <required type="bool">True</required>
           <varname type="str">lien_civadis</varname>
           <display_locations />
+          <anonymise type="str">final</anonymise>
           <id type="str">7</id>
         </field><field>
           <type>subtitle</type>
