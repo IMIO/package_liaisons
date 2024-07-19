@@ -1,0 +1,339 @@
+<?xml version="1.0"?>
+<workflow id="41" url="https://staging3-formulaires.guichet-citoyen.be/backoffice/workflows/41/">
+  <name>iMio - Certificats Population liaison</name>
+  <slug>imio-certificats-population-liaison</slug>
+  <roles>
+    <role id="_receiver">Agent traitant</role>
+    <role id="_validateur-pc-banking">Validateur pc banking</role>
+  </roles><possible_status>
+    <status>
+      <id>just_submitted</id>
+      <name>Juste envoy&#233;</name>
+      <colour>#999999</colour>
+      <visibility>
+        <role>__restricted__</role>
+      </visibility><items>
+        <item type="set-backoffice-fields" id="1">
+          <label>Authentification forte</label>
+          <fields>
+            <field>
+              <field_id>bo2162b04d-0b5b-4a87-9075-425b8fdebfb2</field_id>
+              <value>{{ form_user|is_strong_authentication }}</value>
+            </field>
+          </fields>
+        </item><item type="set-backoffice-fields" id="4">
+          <label>Donn&#233;es de la personne</label>
+          <fields>
+            <field>
+              <field_id>bo6</field_id>
+              <value>{{form_var_nn_perscon}}</value>
+            </field>
+          </fields>
+        </item><item type="jump" id="2">
+          <status>39</status>
+          <condition>
+            <type>django</type>
+            <value>session_user|is_strong_authentication and form_var_mode_delivrance_raw == "mondossier"</value>
+          </condition><mode>immediate</mode>
+          <set_marker_on_status>False</set_marker_on_status>
+        </item><item type="jump" id="5">
+          <status>42</status>
+          <condition>
+            <type>django</type>
+            <value>form_option_lien_civadis and form_var_mode_delivrance ==  "Je souhaite recevoir mes documents par le biais de mon administration communale."</value>
+          </condition><mode>immediate</mode>
+          <set_marker_on_status>False</set_marker_on_status>
+        </item>
+      </items>
+    </status><status>
+      <id>39</id>
+      <name>R&#233;cup&#233;ration du document</name>
+      <colour>#999999</colour>
+      <visibility>
+        <role>__restricted__</role>
+      </visibility><items>
+        <item type="register-comment" id="1">
+          <comment>PDF mal encod&#233;
+document n'existe pas
+serveur d&#233;connect&#233;
+</comment>
+        </item><item type="webservice_call" id="2">
+          <label>R&#233;cup&#233;ration du certificat</label>
+          <method>GET</method>
+          <url>{{ passerelle_url }}passerelle-imio-apims-certificats-population/connecteur-rn/read-document</url>
+          <qs_data>
+            <item>
+              <name>person_nrn</name>
+              <value>{{ form_user_var_niss }}</value>
+            </item><item>
+              <name>requestor_nrn</name>
+              <value>{{ form_user_var_niss }}</value>
+            </item><item>
+              <name>document_type</name>
+              <value>{{ form_var_document_type }}</value>
+            </item>
+          </qs_data><post>False</post>
+          <response_type>attachment</response_type>
+          <varname>population_document</varname>
+          <store_all_responses>False</store_all_responses>
+          <attach_file_to_history>True</attach_file_to_history>
+          <backoffice_filefield_id>boc69b2ccc-1a6c-43a8-a1e0-5008ba678885</backoffice_filefield_id>
+          <action_on_app_error>41</action_on_app_error>
+          <action_on_4xx>41</action_on_4xx>
+          <action_on_5xx>41</action_on_5xx>
+          <action_on_bad_data>:pass</action_on_bad_data>
+          <action_on_network_errors>41</action_on_network_errors>
+          <record_errors>True</record_errors>
+          <record_on_errors>True</record_on_errors>
+          <notify_on_errors>False</notify_on_errors>
+          <set_marker_on_status>False</set_marker_on_status>
+        </item><item type="jump" id="3">
+          <status>40</status>
+          <mode>immediate</mode>
+          <set_marker_on_status>False</set_marker_on_status>
+        </item>
+      </items>
+    </status><status>
+      <id>41</id>
+      <name>Erreur lors de la r&#233;cup&#233;ration du document</name>
+      <colour>#ff0000</colour>
+      <visibility />
+      <items>
+        <item type="jump" id="1">
+          <status>39</status>
+          <mode>timeout</mode>
+          <timeout>43200</timeout>
+          <set_marker_on_status>False</set_marker_on_status>
+        </item>
+      </items>
+    </status><status>
+      <id>40</id>
+      <name>Document</name>
+      <colour>#0099ff</colour>
+      <visibility />
+      <items>
+        <item type="displaymsg" id="1">
+          <message>Le document num&#233;ris&#233; a &#233;t&#233; d&#233;livr&#233; &#224; l'usager.</message>
+          <level>info</level>
+          <position>top</position>
+          <to>
+            <item role_id="_receiver">_receiver</item>
+          </to>
+        </item><item type="displaymsg" id="2">
+          <message>Votre document est disponible au t&#233;l&#233;chargement.&lt;br /&gt;
+&lt;a style="margin: 10px; width: 230px;" href="{{ form_var_document_url }}" title="Cliquez pour &#234;tre redirig&#233; vers votre document" class="pk-button"&gt;T&#233;l&#233;charger le document&lt;/a&gt;</message>
+          <level>success</level>
+          <position>top</position>
+          <to>
+            <item role_id="_submitter">_submitter</item>
+          </to>
+        </item><item type="register-comment" id="3">
+          <comment>&lt;a href="{{ form_var_document_url }}" title="Cliquez pour &#234;tre redirig&#233; vers votre document" class="pk-button"&gt;T&#233;l&#233;charger le document&lt;/a&gt;
+&lt;/p&gt;</comment>
+          <to>
+            <item role_id="_submitter">_submitter</item>
+          </to>
+        </item>
+      </items>
+    </status><status>
+      <id>37</id>
+      <name>Demande Cl&#244;tur&#233;e</name>
+      <colour>#FF99FF</colour>
+      <visibility />
+      <items>
+        <item type="register-comment" id="1">
+          <comment>&lt;p&gt;Demande cl&#244;tur&#233;e&lt;/p&gt;
+&lt;p&gt;La demande sera anonymis&#233;e le {% if form_var_demande_me_concerne %}{{ today|add_days:form_option_delai_anonymisation_me_concerne|date:"d/m/Y" }}{% endif %}{% if form_var_demande_concerne_tier %}{{ today|add_days:form_option_delai_anonymisation_document_concerne_tier|date:"d/m/Y" }}{% endif %}&lt;/p&gt;</comment>
+        </item><item type="jump" id="2">
+          <status>38</status>
+          <mode>timeout</mode>
+          <timeout>{{ form_option_delai_anonymisation_me_concerne }} jours</timeout>
+          <set_marker_on_status>False</set_marker_on_status>
+        </item>
+      </items>
+    </status><status>
+      <id>38</id>
+      <name>Demande anonymis&#233;e</name>
+      <colour>#FF9999</colour>
+      <visibility />
+      <items>
+        <item type="anonymise" id="1">
+          <mode>final</mode>
+        </item>
+      </items>
+    </status><status>
+      <id>42</id>
+      <name>REDIRECTION CIVADIS</name>
+      <colour>#FFFFFF</colour>
+      <visibility />
+      <items>
+        <item type="displaymsg" id="1">
+          <message>&lt;p&gt;Vous avez choisi d'obtenir votre fichier par le biais de votre administration. En cliquant sur "Valider", vous serez redirig&#233; vers le guichet Population/&#201;tat Civil.&lt;/p&gt;</message>
+          <position>top</position>
+          <to>
+            <item role_id="_submitter">_submitter</item>
+          </to>
+        </item><item type="redirect_to_url" id="2">
+          <url>{{form_option_lien_civadis}}</url>
+        </item>
+      </items>
+    </status>
+  </possible_status><global_actions>
+    <action>
+      <id>2</id>
+      <name>&#10060; Supprimer la d&#233;marche</name>
+      <items>
+        <item type="remove" id="1" />
+      </items><triggers>
+        <trigger type="manual" id="7a3a1475-ecd5-421c-a07c-766ad720ee2b">
+          <roles>
+            <item slug="debug" role_id="6d2c55fe2ea44e41b7f8111b93f1930a">Debug</item>
+          </roles><allow_as_mass_action>True</allow_as_mass_action>
+          <require_confirmation>False</require_confirmation>
+        </trigger>
+      </triggers>
+    </action><action>
+      <id>6</id>
+      <name>Cl&#244;turer la demande</name>
+      <items>
+        <item type="jump" id="1">
+          <status>37</status>
+          <condition>
+            <type>django</type>
+            <value>form_option_activer_anonymisation</value>
+          </condition><set_marker_on_status>False</set_marker_on_status>
+        </item>
+      </items><triggers>
+        <trigger type="timeout" id="4a65f297-9b34-4b0d-963a-a4a1af68c89a">
+          <anchor>finalized</anchor>
+          <timeout>1</timeout>
+        </trigger>
+      </triggers>
+    </action>
+  </global_actions><variables>
+    <formdef>
+      <name>-</name>
+      <fields>
+        <field>
+          <type>text</type>
+          <label type="str">Commentaire</label>
+          <required type="bool">False</required>
+          <hint type="str">Le commentaire s'affichera &#224; la premi&#232;re page de votre formulaire.
+Ce dernier vous permet d'indiquer des informations personnalis&#233;es aux citoyens.</hint>
+          <varname type="str">commentaire</varname>
+          <display_locations />
+          <anonymise type="str">final</anonymise>
+          <display_mode type="str">plain</display_mode>
+          <id type="str">b8dd06a3-4a96-46be-aaad-714a1f60a0f5</id>
+        </field><field>
+          <type>subtitle</type>
+          <label type="str">Civadis</label>
+          <display_locations>
+            <item>validation</item>
+            <item>summary</item>
+          </display_locations><id type="str">489232b3-3898-4f1b-86c5-0f2ee36adcbf</id>
+        </field><field>
+          <type>string</type>
+          <label type="str">Url du document sur le site de Civadis</label>
+          <required type="bool">True</required>
+          <varname type="str">lien_civadis</varname>
+          <display_locations />
+          <id type="str">0d9c3304-42b0-47cc-8cbe-3e01ff1ee451</id>
+        </field><field>
+          <type>subtitle</type>
+          <label type="str">Anonymisation</label>
+          <display_locations>
+            <item>validation</item>
+            <item>summary</item>
+          </display_locations><id type="str">22</id>
+        </field><field>
+          <type>bool</type>
+          <label type="str">Activer l'anonymisation</label>
+          <required type="bool">False</required>
+          <hint type="str">Cochez pour activer l'anonymisation</hint>
+          <varname type="str">activer_anonymisation</varname>
+          <display_locations />
+          <anonymise type="str">no</anonymise>
+          <id type="str">21</id>
+        </field><field>
+          <type>string</type>
+          <label type="str">D&#233;lai d'anonymisation document qui me concerne</label>
+          <required type="bool">False</required>
+          <hint type="str">En jours</hint>
+          <varname type="str">delai_anonymisation_me_concerne</varname>
+          <display_locations />
+          <anonymise type="str">final</anonymise>
+          <validation>
+            <type>digits</type>
+          </validation><id type="str">19</id>
+        </field><field>
+          <type>comment</type>
+          <label type="str">&lt;p&gt;Le &lt;strong class="label" id="label19"&gt;D&amp;eacute;lai d&amp;#39;anonymisation document qui me concerne&lt;/strong&gt; est &amp;eacute;galement utilis&amp;eacute; pour&lt;/p&gt;
+
+&lt;ul&gt;
+	&lt;li&gt;&lt;strong&gt;Acte de D&amp;eacute;c&amp;egrave;s&lt;/strong&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Acte de Reconnaissance pr&amp;eacute;/post-natale&lt;/strong&gt;&lt;/li&gt;
+	&lt;li&gt;&lt;strong&gt;Cohabitation L&amp;eacute;gale&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</label>
+          <display_locations />
+          <id type="str">23</id>
+        </field><field>
+          <type>subtitle</type>
+          <label type="str">Autre</label>
+          <display_locations>
+            <item>validation</item>
+            <item>summary</item>
+          </display_locations><id type="str">30</id>
+        </field><field>
+          <type>string</type>
+          <label type="str">Lien du r&#232;glement communal</label>
+          <required type="bool">False</required>
+          <hint type="str">Lien vers le r&#232;glement communal qui s'affichera &#233;ventuellement dans certains formulaires (https://...).</hint>
+          <varname type="str">reglement_communal</varname>
+          <display_locations />
+          <anonymise type="str">final</anonymise>
+          <id type="str">14</id>
+        </field>
+      </fields>
+    </formdef>
+  </variables><backoffice-fields>
+    <formdef>
+      <name>-</name>
+      <fields>
+        <field>
+          <type>string</type>
+          <label type="str">NN de l'int&#233;ress&#233;</label>
+          <required type="bool">False</required>
+          <varname type="str">wf_nn</varname>
+          <display_locations>
+            <item>validation</item>
+            <item>summary</item>
+          </display_locations><anonymise type="str">final</anonymise>
+          <id type="str">bo6</id>
+        </field><field>
+          <type>file</type>
+          <label type="str">Document</label>
+          <required type="bool">True</required>
+          <varname type="str">document</varname>
+          <display_locations>
+            <item>summary</item>
+          </display_locations><anonymise type="str">final</anonymise>
+          <allow_portfolio_picking type="bool">False</allow_portfolio_picking>
+          <automatic_image_resize type="bool">False</automatic_image_resize>
+          <storage type="str">default</storage>
+          <id type="str">boc69b2ccc-1a6c-43a8-a1e0-5008ba678885</id>
+        </field><field>
+          <type>bool</type>
+          <label type="str">Usager connect&#233; en authentification forte</label>
+          <required type="bool">False</required>
+          <varname type="str">connexion_forte</varname>
+          <display_locations>
+            <item>summary</item>
+          </display_locations><anonymise type="str">no</anonymise>
+          <id type="str">bo2162b04d-0b5b-4a87-9075-425b8fdebfb2</id>
+        </field>
+      </fields>
+    </formdef>
+  </backoffice-fields>
+</workflow>

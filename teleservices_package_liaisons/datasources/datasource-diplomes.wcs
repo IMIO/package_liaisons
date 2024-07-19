@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<datasource id="158" url="https://staging2-formulaires.guichet-citoyen.be/backoffice/settings/data-sources/158/">
-  <name>diplomes</name>
-  <slug>diplomes</slug>
-  <data_source>
-    <type>jsonvalue</type>
-    <value>[{"id": "no_diplome", "text": "Pas de dipl&#244;me"}, {"id": "primaire", "text": "Primaire"}, {"id": "sec_inf", "text": "Secondaire inf&#233;rieur"}, {"id": "sec_sup", "text": "Secondaire sup&#233;rieur"}, {"id": "sup_court", "text": "Sup&#233;rieur type court (Bachelor/Graduat)"}, {"id": "sup_long", "text": "Sup&#233;rieur type long (Master/Licence)"}]</value>
-  </data_source>
-</datasource>
