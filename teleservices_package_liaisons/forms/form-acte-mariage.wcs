@@ -21,13 +21,6 @@
       <id type="str">1</id>
     </field>
     <field>
-      <type>comment</type>
-      <label type="str">
-      <p>Cet acte peut &ecirc;tre <strong>EXCLUSIVEMENT</strong> demand&eacute; par :&nbsp;</p> <ol> <li>l&#39;&eacute;poux / l&#39;&eacute;pouse / le cohabitant l&eacute;gal</li> <li>le repr&eacute;sentant l&eacute;gal</li> <li>l&#39;ascendant / descendant</li> <li>le notaire / l&#39;avocat</li> <li>l&#39;h&eacute;ritier / ayant droit</li> </ol> <p>Si vous choisissez le retrait &agrave; la commune, le certificat vous sera d&eacute;livr&eacute; sur pr&eacute;sentation de&nbsp;<strong>votre carte d&#39;identit&eacute;.</strong></p> <h2>Traitement</h2> <ol> <li>Compl&eacute;tez votre demande via le formulaire ci-dessous.</li> <li>Le cas &eacute;ch&eacute;ant, proc&eacute;dez au paiement.</li> <li>Vous recevrez un r&eacute;capitulatif de votre demande sur l&#39;adresse e-mail communiqu&eacute;e dans le formulaire.</li> <li>Si votre demande est valide, vous recevrez prochainement votre document selon le mode de d&eacute;livrance choisi. &Agrave; d&eacute;faut, vous serez pr&eacute;venu par e-mail.</li> </ol>
-      </label>
-      <display_locations/>
-      <id type="str">3</id>
-    </field><field>
       <type>computed</type>
       <label type="str">BAEC cat&#233;gorie</label>
       <varname type="str">baec_category</varname>
