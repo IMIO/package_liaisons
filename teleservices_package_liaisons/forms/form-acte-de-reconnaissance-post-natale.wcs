@@ -19,23 +19,8 @@
       <type>page</type>
       <label type="str">Extrait/Copie intégrale d'acte de Reconnaissance</label>
       <id type="str">1</id>
-    </field><field>
-      <type>comment</type>
-      <label type="str">
-      <p>Cet acte peut donc être EXCLUSIVEMENT demandé par :
-        les parents
-        l'enfant
-      </label>
-      <display_locations/>
-      <id type="str">3</id>
-    </field><field>
-      <type>comment</type>
-      <label type="str">
-      <p>Cet acte peut &ecirc;tre <strong>EXCLUSIVEMENT</strong> demand&eacute; par :&nbsp;</p> <ol> <li>l&#39;&eacute;poux / l&#39;&eacute;pouse / le cohabitant l&eacute;gal</li> <li>le repr&eacute;sentant l&eacute;gal</li> <li>l&#39;ascendant / descendant</li> <li>le notaire / l&#39;avocat</li> <li>l&#39;h&eacute;ritier / ayant droit</li> </ol> <p>Si vous choisissez le retrait &agrave; la commune, le certificat vous sera d&eacute;livr&eacute; sur pr&eacute;sentation de&nbsp;<strong>votre carte d&#39;identit&eacute;.</strong></p> <h2>Traitement</h2> <ol> <li>Compl&eacute;tez votre demande via le formulaire ci-dessous.</li> <li>Le cas &eacute;ch&eacute;ant, proc&eacute;dez au paiement.</li> <li>Vous recevrez un r&eacute;capitulatif de votre demande sur l&#39;adresse e-mail communiqu&eacute;e dans le formulaire.</li> <li>Si votre demande est valide, vous recevrez prochainement votre document selon le mode de d&eacute;livrance choisi. &Agrave; d&eacute;faut, vous serez pr&eacute;venu par e-mail.</li> </ol>
-      </label>
-      <display_locations/>
-      <id type="str">3</id>
-    </field><field>
+    </field>
+    <field>
       <type>computed</type>
       <label type="str">BAEC cat&#233;gorie</label>
       <varname type="str">baec_category</varname>
@@ -49,19 +34,8 @@
       <value_template type="str">{{ data_source.mode_de_delivrance_1|authentication_delivrance_items_visibility:session_user }}</value_template>
       <freeze_on_initial_value type="bool">False</freeze_on_initial_value>
       <id type="str">fc70b113-d13d-4be5-801b-f18b816621c8</id>
-    </field><field>
-      <type>comment</type>
-      <label type="str">&lt;h2&gt;Comment obtenir l&amp;#39;acte souhait&amp;eacute; ?&lt;/h2&gt;
-
-&lt;ol&gt;
-	&lt;li&gt;Si l&amp;#39;acte vous concerne et si vous &amp;ecirc;tes connect&amp;eacute; avec votre carte d&amp;#39;identit&amp;eacute; &amp;eacute;lectronique ou l&amp;#39;application It&amp;#39;s Me, vous aurez la possibilit&amp;eacute; de r&amp;eacute;cup&amp;eacute;rer directement en format PDF l&amp;#39;extrait ou la copie de votre acte. Si cet acte n&amp;#39;a pas &amp;eacute;t&amp;eacute; num&amp;eacute;ris&amp;eacute; dans la Banque des Actes de l&amp;#39;Etat Civil, vous aurez la possibilit&amp;eacute; d&amp;#39;en faire la demande.&lt;/li&gt;
-	&lt;li&gt;Si l&amp;#39;acte ne vous concerne pas, vous pourrez faire la demande aupr&amp;egrave;s de l&amp;#39;administration communale pour un tiers. Une redevance communale et des frais li&amp;eacute;s au mode de r&amp;eacute;ception sont possibles. Vous pourrez r&amp;eacute;gler le montant d&amp;ucirc; en ligne.&lt;/li&gt;
-	&lt;li&gt;Si votre demande est valide, vous recevrez tr&amp;egrave;s prochainement votre document selon le mode de d&amp;eacute;livrance que vous aurez choisi. Si votre demande n&amp;#39;est pas valide, vous serez pr&amp;eacute;venu par e-mail et rembours&amp;eacute; de la somme per&amp;ccedil;ue dans les meilleurs d&amp;eacute;lais.&lt;/li&gt;
-&lt;/ol&gt;
-</label>
-      <display_locations />
-      <id type="str">121</id>
-    </field><field>
+    </field>
+    <field>
       <type>comment</type>
       <label type="str">&lt;p&gt;{{ form_option_actes_commentaire_additionnel }}&lt;/p&gt;
 </label>
