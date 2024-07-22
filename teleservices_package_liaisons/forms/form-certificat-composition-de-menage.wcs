@@ -106,10 +106,7 @@
     <option varname="commentaire" />
     <option varname="delai_anonymisation_me_concerne">90</option>
     <option varname="lien_civadis"></option>
-      <id />
-      <text />
-      <description />
-    </option><option varname="reglement_communal" />
+    <option varname="reglement_communal" /></option>
   </options><custom_views />
   <geolocations />
   <management_sidebar_items>
