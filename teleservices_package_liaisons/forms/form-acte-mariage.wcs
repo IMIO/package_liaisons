@@ -250,7 +250,6 @@
     <option varname="liaison_baec_structured"></option>
     <option varname="lien_civadis">https://www.imio.be/</option>
     <option varname="reglement_communal"></option>
-    </option>
   </options><custom_views />
   <geolocations />
   <required_authentication_contexts>
