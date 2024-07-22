@@ -241,18 +241,16 @@
   </roles><options>
     <option varname="activer_anonymisation" type="bool">false</option>
     <option varname="baec" type="bool">true</option>
-    <option varname="commentaire" />
+    <option varname="commentaire"></option>
     <option varname="delai_anonymisation_me_concerne">90</option>
     <option varname="delai_migration">5</option>
     <option varname="liaison_baec">Production</option>
     <option varname="liaison_baec_display">Production</option>
-    <option varname="liaison_baec_structured" />
     <option varname="lien_civadis">https://www.imio.be/</option>
-    </option><option varname="reglement_communal" />
+    </option><option varname="reglement_communal"></option>
   </options><custom_views />
   <geolocations />
   <required_authentication_contexts>
     <method>fedict</method>
-  </required_authentication_contexts><management_sidebar_items>
-    <item>__default__</item>
+  </required_authentication_contexts>
 </formdef>

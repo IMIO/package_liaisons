@@ -262,13 +262,12 @@
     <option varname="delai_migration">5</option>
     <option varname="liaison_baec">Production</option>
     <option varname="liaison_baec_display">Production</option>
-    <option varname="liaison_baec_structured" />
+    <option varname="liaison_baec_structured"></option>
     <option varname="lien_civadis">https://www.imio.be/</option>
-    </option><option varname="reglement_communal" />
+    </option><option varname="reglement_communal"></option>
   </options><custom_views />
   <geolocations />
   <required_authentication_contexts>
     <method>fedict</method>
-  </required_authentication_contexts><management_sidebar_items>
-    <item>__default__</item>
+  </required_authentication_contexts>
 </formdef>
